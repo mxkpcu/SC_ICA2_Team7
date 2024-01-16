@@ -1,5 +1,4 @@
 (ns calculate
-  (:gen-class)
   (:require [clojure.data.csv :as csv]
             [clojure.java.io :as io]))
 
