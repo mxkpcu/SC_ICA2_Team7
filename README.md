@@ -10,7 +10,7 @@ Download from http://example.com/FIXME.
 
 FIXME: explanation
 
-    $ java -jar ica-modified-0.1.0-standalone.jar [args]
+    $ lein run -m ica2.calculate
 
 ## Options
 
@@ -18,7 +18,7 @@ FIXME: listing of options this app accepts.
 
 ## Examples
 
-$ lein run -m ica2.calculate
+..
 
 ### Bugs
 
