@@ -8,9 +8,7 @@ Download from http://example.com/FIXME.
 
 ## Usage
 
-FIXME: explanation
-
-    $ lein run -m ica2.calculate
+    $ lein run
 
 ## Options
 
