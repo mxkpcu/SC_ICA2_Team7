@@ -1,4 +1,5 @@
-(ns calculate
+(ns ica2.calculate
+  (:gen-class)
   (:require [clojure.data.csv :as csv]
             [clojure.java.io :as io]))
 
@@ -59,32 +60,28 @@
        :min (apply min items)
        :max (apply max items)})))
 
-;; Analyze groups by route.
-(defn analyze-route [route-groups]
-  (let [analyze-fn (fn
-                     [groups]
+(defn count-flights-per-passenger [data]
+  (frequencies (map (fn [[name yob _ _ _]] [name yob]) data)))
+
+(defn analyze-route [route-groups passenger-flights]
+  (let [analyze-fn (fn [groups]
                      (let [prices (map :price groups)
-                           counts (map #(count (:members %)) groups)]
+                           counts (map #(count (:members %)) groups)
+                           flights (map #(reduce + (map (fn [[name yob]]
+                                                          (get passenger-flights [name yob] 0))
+                                                        (:members %))) groups)]
                        {:price-stats (analyze-group prices)
-                        :people-stats (analyze-group counts)}))]
+                        :flights-stats (analyze-group flights)}))]
     (reduce (fn [acc [group-type groups]]
               (assoc acc group-type (analyze-fn groups)))
             {}
             route-groups)))
 
-;; Print unique routes with trip analysis.
-(defn print-grouped-trips [grouped-trips]
-  (doseq [[[departure destination] groups] grouped-trips]
-    (let [analyzed-route (analyze-route groups)]
-      (println "Unique route:" departure "->" destination
-               "Analysis:" analyzed-route)
-      )))
-
-(defn main []
+(defn calculate-route-data [from to group-type]
   (let [data (read-csv "src/ica2/sales_team_7.csv")
-        prepared-data (prepare-groups data)
-        grouped-trips (group-trips-by-route prepared-data)]
-    (print-grouped-trips grouped-trips)
-    ))
-
-(main)
+        prepared-data (prepare-groups (rest data))
+        passenger-flights (count-flights-per-passenger (rest data))
+        grouped-trips (group-trips-by-route prepared-data)
+        route-groups (get grouped-trips [from to])
+        analyzed-route (analyze-route route-groups passenger-flights)]
+    (get-in analyzed-route [group-type])))
