@@ -2,11 +2,14 @@
 
 ## Description
 
-This `ica2` Clojure project, is designed for analyzing and optimizing the sales of travel tickets. The application processes data to determine the most cost-effective travel routes for groups and individuals, catering to specific travel needs based on a variety of factors such as price, number of connections, and passenger composition (families or groups).
+This `ICA2` Clojure project, is designed for analyzing and optimizing the sales of travel tickets. The application processes data to determine the most cost-effective travel routes for groups and individuals, catering to specific travel needs based on a variety of factors such as price, number of connections, and passenger composition (families or groups).
 
 ## Installation
 
-Ensure you have Clojure and Leiningen installed on your system for running the project.
+Ensure you have Clojure and Leiningen installed on your system for running the project, run if needed:
+```
+$ lein deps
+```
 
 ## Usage
 
@@ -20,10 +23,10 @@ Earned: 636300
 ```
 This command initiates the ticket selling simulation based on the provided data.
 ## Examples
-If you want to test hypothesis, you can change these lines here: `core.clj:99`
+If you want to test hypothesis, you can change these lines here: `src/ica2/core.clj:99`
 ```
-            max-price (* 0.7 (get-in group-analysis-data [:price-stats :max]))
-            max-connections (get-in group-analysis-data [:flights-stats :max])
+max-price (* 0.7 (get-in group-analysis-data [:price-stats :max]))
+max-connections (get-in group-analysis-data [:flights-stats :max])
 ```
 
 ## Core Components
@@ -39,10 +42,7 @@ Configures the Clojure project, including dependencies and build settings. It en
 ### sales_routines.clj and broker.clj
 Work together to simulate the ticket selling process. broker.clj reads input data and calls functions from sales_routines.clj to determine if a sale should be made based on the proposed travel plan and budget constraints.
 
-## Options
-Currently, there are no configurable options exposed for command-line usage. All configurations are internal within the code.
-
-### Bugs
+## Bugs
 If you run `lein run` you will see error output in the end:
 ```
 ...
